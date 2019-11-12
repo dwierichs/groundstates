@@ -1,0 +1,65 @@
+{% extends "core/base.html" %}
+{% block content %}
+  {% if systems %}
+  <h3>Systems</h3>
+  <table class="table" style="width: 100%">
+  <tr>
+    <th style="width: 25%">Name</th>
+    <th style="width: 30%; text-align:center">Hamiltonian</th>
+    <th style="width: 15%; text-align:center">Graph</th>
+    <th style="width: 30%; text-align:center">Description</th>
+  </tr>
+  {% for system in systems %}
+    <tr>
+      <td style="vertical-align:middle"><a href="{% url 'system-detail' system.pk %}">{{ system.name }}</a></td>
+      <td style="vertical-align:top">\[{{ system.H }}\]</td>
+      <td style="vertical-align:middle">{{ system.graph.dim }}D - {{ system.graph.geometry }}</td>
+      <td style="vertical-align:middle">{{ system.description }}</td>
+    </tr>
+  {% endfor %}
+  </table>
+  {% else %}
+    <h3>No systems available</h3>
+  {% endif %}
+
+  {% if msgs %}
+  <h3>Updates</h3>
+    {% for m in msgs %}
+    <article class="media content-section">
+      <div class="media-body">
+        <div class="article-metadata">
+            <!-- { url 'profile' post.author.profile } -->
+          <a class="mr-2">{{ m.author.username }} on {{ m.date_mod|date:"D, d.m.Y"}} at {{ m.date_mod|date:"H:i"}}</a>
+        </div>
+        <h2><a class="article-title" href="#">{{ m.title }}</a></h2>
+        <p class="article-content">{{ m.content }}</p>
+      </div>
+    </article>
+    {% endfor %}
+  {% else %}
+    <h3>No updates available</h3>
+  {% endif %}
+
+  {% if is_paginated %}
+
+    {% if page_obj.has_previous %}
+      <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+      <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+      {% if page_obj.number == num %}
+        <a class="btn disabled btn-info mb-4" href="">{{ num }}</a>
+      {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+        <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+      <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+      <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+    {% endif %}
+
+  {% endif %}
+{% endblock content %}
+
