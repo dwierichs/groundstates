@@ -38,20 +38,3 @@ class Energy(Poly):
             ('Energy', self.value,),
             ('Abs. Error', self.abs_error,),
             ]
-
-
-class Energy_TFI(Energy):
-    
-    h = models.DecimalField( max_digits=14, decimal_places=10 )
-    J = models.DecimalField( default=0., max_digits=14, decimal_places=10 )
-
-    def get_params(self):
-        params = super().get_params()
-        params = params + [
-                ('h', self.h,),
-                ('J', self.J,),
-                ]
-        return params
-
-
-
