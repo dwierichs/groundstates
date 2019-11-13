@@ -8,7 +8,7 @@ from django.views.generic import (
 from .models import (
     Graph,
     System,
-    Energy,
+    #Energy,
     )
 from .energy_models import *
 from .energy_models import _AUTO_REGISTER
@@ -35,12 +35,15 @@ class SystemDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
-        energies = self.get_object().energy_set.all()
+        energies_tmp = self.get_object().energy_set.all()
+        energies = [[tup[1] for tup in e.get_params()] for e in energies_tmp]
+        params = [tup[0] for tup in energies_tmp[0].get_params()]
         #e_type = [cls for cls in _AUTO_REGISTER if isinstance(energies[0], cls)]
-        refs = [r for e in energies for r in e.references.split('\n')]
-        refnames = refs # Here we can automatically generate a better name (e.g. the arxiv handle or such things) #%#
-        context['refs'] = [(refs[i],refnames[i],) for i in range(len(refs))]
+        #refs = [r for e in energies for r in e.references.split('\n')]
+        #refnames = refs # Here we can automatically generate a better name (e.g. the arxiv handle or such things) #%#
+        #context['refs'] = [(refs[i],refnames[i],) for i in range(len(refs))]
         context['energies'] = energies
+        context['params'] = params
         return context
 
 

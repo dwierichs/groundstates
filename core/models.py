@@ -1,4 +1,5 @@
 from django.db import models
+from polymorphic.models import PolymorphicModel as Poly
 
 from groundstates.settings import (
     _graph_geometry_CHOICES,
@@ -26,25 +27,31 @@ class System(models.Model):
         super().save()
 
 
-class Energy(models.Model):
-    value = models.DecimalField( max_digits=14, decimal_places=10, verbose_name='energy' )
-    abs_error = models.DecimalField( max_digits=14, decimal_places=10, default=None, blank=True, verbose_name='absolute deviation' )
-    rel_error = models.DecimalField( max_digits=9, decimal_places=8, default=None, blank=True, verbose_name='relative deviation' )
-    method = models.CharField( max_length=70, verbose_name='computational method' )
-    codelink = models.CharField( max_length=140, verbose_name='code repository' )
-    references = models.TextField( verbose_name='references' )
+class Energy(Poly):
 
-    system = models.ForeignKey( System, on_delete=models.CASCADE, verbose_name='system' )
+    value = models.DecimalField( max_digits=14, decimal_places=10 )
+    system = models.ForeignKey( System, on_delete=models.CASCADE )
+    abs_error = models.DecimalField( default=0., max_digits=14, decimal_places=10 )
 
-    def save(self, *args, **kwargs):
-        if self.rel_error is None:
-            if self.abs_error is not None:
-                self.rel_error = self.abs_error/abs(self.value)
-            else: # is this the convention we want? What about entries with numerically exact solutions 
-                  # (i.e. numerical evaluations of analytic solutions)#%#
-                self.rel_error = 0.
-                self.abs_error = 0.
+    def get_params(self):
+        return [
+            ('Energy', self.value,),
+            ('Abs. Error', self.abs_error,),
+            ]
 
-        super().save(*args, **kwargs)
+
+class Energy_TFI(Energy):
+    
+    h = models.DecimalField( max_digits=14, decimal_places=10 )
+    J = models.DecimalField( default=0., max_digits=14, decimal_places=10 )
+
+    def get_params(self):
+        params = super().get_params()
+        params = params + [
+                ('h', self.h,),
+                ('J', self.J,),
+                ]
+        return params
+
 
 

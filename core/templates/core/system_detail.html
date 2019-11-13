@@ -25,17 +25,19 @@
   <h4>Ground State Energies</h4>
   <table class="table" style="width: 100%">
   <tr>
-    <th>Energy</th>
-    <th>Error</th>
-    <th>Test1:Par_no</th>
-    <th>Test2:Par_no</th>
+    {% for par in params %}
+      <th>{{ par }}</th>
+    {% endfor %}
   </tr>
   {% for e in energies %}
     <tr>
-      <td>{{ e.value }}</td>
-      <td>{{ e.rel_error }}</td>
-      <td>{{ e.system.n_par }}</td>
-      <td>{{ e.dir }}</td>
+      {% for attr in e %}
+        <td>{{ attr }}</td>
+      {%endfor %}
+      <!--td>{ e.value }}</td>
+      <td>{ e.rel_error }}</td>
+      <td>{ e.system.n_par }}</td>
+      <td>{ e.dir }}</td-->
     </tr>
   {% endfor %}
   </table>
