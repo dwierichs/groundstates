@@ -10,6 +10,8 @@ class Graph(models.Model):
     geometry = models.CharField( max_length=40, verbose_name='type', choices=_graph_geometry_CHOICES )
     dim = models.IntegerField( verbose_name='dimension', choices=[(i,i) for i in range(_graph_dim_MAX+1)] )
     pbc = models.IntegerField( verbose_name='periodic boundary conditions', choices=[(i,i) for i in range(int(2**_graph_dim_MAX))] )
+    def __str__(self):
+        return f'{self.dim}D - {self.geometry}'
 
 
 class System(models.Model):
