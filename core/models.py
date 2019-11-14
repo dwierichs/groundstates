@@ -7,7 +7,10 @@ from groundstates.settings import (
     _graph_dim_MAX,
     )
 
+<<<<<<< HEAD
 from .utils import list_references
+=======
+>>>>>>> add searchflag model
 
 class Graph(models.Model):
     geometry = models.CharField( max_length=40, verbose_name='type', choices=_graph_geometry_CHOICES )
@@ -15,6 +18,12 @@ class Graph(models.Model):
     pbc = models.IntegerField( verbose_name='periodic boundary conditions', choices=[(i,i) for i in range(int(2**_graph_dim_MAX))] )
     def __str__(self):
         return f'{self.dim}D - {self.geometry}'
+
+
+class SearchFlag(models.Model):
+    flag = models.CharField( max_length=100, null=True, blank=True, verbose_name='search flag' )
+    def __str__(self):
+        return f'{self.flag}'
 
 
 class System(models.Model):
@@ -28,6 +37,7 @@ class System(models.Model):
     references = models.TextField( null=True, blank=True, verbose_name='references' )
 
     graph = models.ForeignKey( Graph, on_delete=models.CASCADE, verbose_name='graph' ) # on_delete to be modified! #%#
+    search_flags = models.ManyToManyField( SearchFlag, verbose_name='search flags' )
 
     def save(self, *args, **kwargs):
         # Purify latex of Hamiltonian
@@ -57,6 +67,7 @@ class Energy(Poly):
             ('Abs. Error', self.abs_error,),
             ]
 
+<<<<<<< HEAD
     def save(self, *args, **kwargs):
         if self.rel_error in [None, 0.]:
             if self.abs_error not in [None, 0.]:
@@ -66,3 +77,4 @@ class Energy(Poly):
         if self.references:
             self.references = '\n'.join([external_link(reflink) for reflink in self.references.split('\n')])
         super().save(*args, **kwargs)
+=======
