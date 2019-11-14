@@ -17,7 +17,7 @@ class Graph(models.Model):
 class System(models.Model):
     name = models.CharField( max_length=80, verbose_name='name' )
     description = models.TextField( default=None, verbose_name='description' )
-    H = models.TextField(verbose_name='Hamiltonian')
+    H = models.TextField( verbose_name='Hamiltonian' )
     n_par = models.IntegerField( verbose_name='number of parameters' )
     wikilink = models.CharField( max_length=100, null=True, blank=True, verbose_name='Wikipedia link' )
     #data = MEDIAFIELD?
@@ -30,11 +30,12 @@ class System(models.Model):
 
 
 class Energy(Poly):
-
-    value = models.DecimalField( max_digits=14, decimal_places=10 )
-    system = models.ForeignKey( System, on_delete=models.CASCADE )
-    abs_error = models.DecimalField( default=0., max_digits=14, decimal_places=10 )
-    rel_error = models.DecimalField( default=0., max_digits=10, decimal_places=7 )
+    value = models.DecimalField( max_digits=14, decimal_places=10, verbose_name='energy' )
+    system = models.ForeignKey( System, on_delete=models.CASCADE, verbose_name='system' )
+    abs_error = models.DecimalField( default=0., max_digits=14, decimal_places=10, verbose_name='absolute error' )
+    rel_error = models.DecimalField( default=0., max_digits=10, decimal_places=7, verbose_name='relative error' )
+    codelink = models.CharField( max_length=140, null=True, blank=True, verbose_name='code repository' )
+    references = models.TextField( verbose_name='references' )
 
     def get_params(self):
         return [
