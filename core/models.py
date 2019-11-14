@@ -21,7 +21,7 @@ class System(models.Model):
     n_par = models.IntegerField( verbose_name='number of parameters' )
     wikilink = models.CharField( max_length=100, null=True, blank=True, verbose_name='Wikipedia link' )
     #data = MEDIAFIELD?
-    contributors = models.TextField( default=None, verbose_name='contributors' )
+    contributors = models.TextField( default=None, null=True, blank=True, verbose_name='contributors' )
 
     graph = models.ForeignKey( Graph, on_delete=models.CASCADE, verbose_name='graph' ) # on_delete to be modified! #%#
 
