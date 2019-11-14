@@ -19,7 +19,7 @@ class System(models.Model):
     description = models.TextField( default=None, verbose_name='description' )
     H = models.TextField(verbose_name='Hamiltonian')
     n_par = models.IntegerField( verbose_name='number of parameters' )
-    wikilink = models.CharField( max_length=100, verbose_name='Wikipedia link' )
+    wikilink = models.CharField( max_length=100, null=True, blank=True, verbose_name='Wikipedia link' )
     #data = MEDIAFIELD?
     contributors = models.TextField( default=None, verbose_name='contributors' )
 
@@ -34,6 +34,7 @@ class Energy(Poly):
     value = models.DecimalField( max_digits=14, decimal_places=10 )
     system = models.ForeignKey( System, on_delete=models.CASCADE )
     abs_error = models.DecimalField( default=0., max_digits=14, decimal_places=10 )
+    rel_error = models.DecimalField( default=0., max_digits=10, decimal_places=7 )
 
     def get_params(self):
         return [
