@@ -2,6 +2,12 @@
 
 Let's get this going!
 
+# Initial data generation and migration policy in development phase
+
+Clone the repo and run
+python3 manage.py shell < \_init.py
+to wipe the DB and reset all migrations, make all new migrations, migrate them and populate the DB with some dummy data
+
 # Wie geht dieses Django?
 
 A.
