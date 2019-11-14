@@ -15,7 +15,14 @@
   <h4>{{ system.description }}</h4>
 
   {% if system.wikilink %}
-    <button class="btn btn-outline-info"><a href="{{ system.wikilink }}">Wiki</a></button>
+    <button class="btn btn-outline-info"><a href={{ system.wikilink }}>Wiki</a></button>
+  {% endif %}
+
+  {% if sys_refs %}
+  <h4>Literature</h4>
+  {% for ref, refname in sys_refs %}
+    <button class="btn btn-outline-info"><a href="{{ ref }}">{{ refname }}</a></button>
+  {% endfor %}
   {% endif %}
 
   <!--{ if system.codelink %}
@@ -28,26 +35,21 @@
     {% for par in params %}
       <th>{{ par }}</th>
     {% endfor %}
+    <th>References</th>
   </tr>
   {% for e in energies %}
     <tr>
-      {% for attr in e %}
+      {% for attr in e.pars %}
         <td>{{ attr }}</td>
       {%endfor %}
-      <!--td>{ e.value }}</td>
-      <td>{ e.rel_error }}</td>
-      <td>{ e.system.n_par }}</td>
-      <td>{ e.dir }}</td-->
+      <td>
+      {% for ref, refname in e.references %}
+        <button class="btn btn-outline-info"><a href="{{ ref }}">{{ refname }}</a></button>
+      {% endfor %}
+      </td>
     </tr>
   {% endfor %}
   </table>
-
-  {% if refs %}
-  <h4>Literature</h4>
-  {% for ref, refname in refs %}
-    <button class="btn btn-outline-info"><a href="{{ ref }}">{{ refname }}</a></button>
-  {% endfor %}
-  {% endif %}
 
 
 </div>

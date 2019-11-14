@@ -38,8 +38,8 @@ s1.save()
 s2 = System(name='Isotropic Heisenberg model (XXX)', description='Heisenberg model with isotropic coupling (XXX model) on a chain, without transverse field.', H='J\sum^N_{i=1} X_i X_{i+1}+Y_i Y_{i+1}+Z_i Z_{i+1}', n_par=2, wikilink='en.wikipedia.org/wiki/classical_heisenberg_model', contributors='system', graph=graph)
 s2.save()
 
-e1_1 = Energy_TFI(value=0.07, system=s1, abs_error=0.01, h=1., J=0.)
-e1_2 = Energy_TFI(value=0.14, system=s1, abs_error=0.02, h=0., J=1.)
+e1_1 = Energy_TFI(value=0.07, system=s1, abs_error=0.01, h=1., J=0., references='www.github.com/dwierichs/groundstates/\nwww.google.com')
+e1_2 = Energy_TFI(value=0.14, system=s1, rel_error=0.02, h=0., J=1., codelink='www.github.com/dwierichs/groundstates/')
 e2_1 = Energy_XXX(value=0.05, system=s2, abs_error=0.01, J=0.)
 e2_2 = Energy_XXX(value=0.10, system=s2, abs_error=0.02, J=1.)
 
