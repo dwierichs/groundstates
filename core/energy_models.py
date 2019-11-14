@@ -16,11 +16,11 @@ class Energy_TFI(Energy):
 
 class Energy_XXX(Energy):
     
-    h = models.DecimalField( max_digits=14, decimal_places=10 )
+    J = models.DecimalField( max_digits=14, decimal_places=10 )
 
     def get_params(self):
         return super().get_params() + [
-                                    ('h', self.h,),
+                                    ('J', self.J,),
                                     ]
 
 
