@@ -7,10 +7,7 @@ from groundstates.settings import (
     _graph_dim_MAX,
     )
 
-<<<<<<< HEAD
 from .utils import list_references
-=======
->>>>>>> add searchflag model
 
 class Graph(models.Model):
     geometry = models.CharField( max_length=40, verbose_name='type', choices=_graph_geometry_CHOICES )
@@ -67,7 +64,6 @@ class Energy(Poly):
             ('Abs. Error', self.abs_error,),
             ]
 
-<<<<<<< HEAD
     def save(self, *args, **kwargs):
         if self.rel_error in [None, 0.]:
             if self.abs_error not in [None, 0.]:
@@ -77,4 +73,3 @@ class Energy(Poly):
         if self.references:
             self.references = '\n'.join([external_link(reflink) for reflink in self.references.split('\n')])
         super().save(*args, **kwargs)
-=======
