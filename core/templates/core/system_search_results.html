@@ -1,22 +1,26 @@
 {% extends "core/base.html" %}
 {% block content %}
-  <h3>Systems</h3>
-  <table class="table" style="width: 100%">
-  <tr>
-    <th style="width: 25%">Name</th>
-    <th style="width: 30%; text-align:center">Hamiltonian</th>
-    <th style="width: 15%; text-align:center">Graph</th>
-    <th style="width: 30%; text-align:center">Description</th>
-  </tr>
-  {% for system in object_list %}
-    <tr>
-      <td style="vertical-align:middle"><a href="{% url 'system-detail' system.pk %}">{{ system.name }}</a></td>
-      <td style="vertical-align:top">\[{{ system.H }}\]</td>
-      <td style="vertical-align:middle">{{ system.graph.dim }}D - {{ system.graph.geometry }}</td>
-      <td style="vertical-align:middle">{{ system.description }}</td>
-    </tr>
-  {% endfor %}
-  </table>
+<h3>Found systems for "{{ query }}"</h3>
+	{% if system_search_results %}  
+  	<table class="table" style="width: 100%">
+  	<tr>
+    	<th style="width: 25%">Name</th>
+   	 	<th style="width: 30%; text-align:center">Hamiltonian</th>
+    	<th style="width: 15%; text-align:center">Graph</th>
+    	<th style="width: 30%; text-align:center">Description</th>
+  	</tr>
+  	{% for system in system_search_results %}
+    	<tr>
+      	<td style="vertical-align:middle"><a href="{% url 'system-detail' system.pk %}">{{ system.name }}</a></td>
+      	<td style="vertical-align:top">\[{{ system.H }}\]</td>
+      	<td style="vertical-align:middle">{{ system.graph.dim }}D - {{ system.graph.geometry }}</td>
+      	<td style="vertical-align:middle">{{ system.description }}</td>
+    	</tr>
+  	{% endfor %}
+  	</table>
+	{% else %}
+	<h4>no results :( </h4>
+	{% endif %}	
   
   {% if is_paginated %}
 

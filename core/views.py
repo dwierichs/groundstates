@@ -35,14 +35,18 @@ class HomeView(ListView):
 class SystemSearchView(ListView):
     model = System
     template_name = 'core/system_search_results.html'
-    #context_object_name = 'system_search_results'  
+    context_object_name = 'system_search_results' 
+    query = ''
+    
     def get_queryset(self):
-        query = self.request.GET.get('q')
-        object_list = System.objects.filter(search_flags__flag=query)
-        print(len(object_list))
+        self.query = self.request.GET.get('q')
+        object_list = System.objects.filter(search_flags__flag=self.query)
         return object_list    
 
-
+    def get_context_data(self, **kwargs):
+        context = super(ListView, self).get_context_data(**kwargs)
+        context['query'] = self.query
+        return context
 
 class SystemDetailView(DetailView):
     template_name = 'core/system_detail.html'
