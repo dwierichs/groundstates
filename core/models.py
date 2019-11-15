@@ -7,7 +7,7 @@ from groundstates.settings import (
     _graph_dim_MAX,
     )
 
-from .utils import list_references
+from .utils import list_references, external_link
 
 class Graph(models.Model):
     geometry = models.CharField( max_length=40, verbose_name='type', choices=_graph_geometry_CHOICES )
