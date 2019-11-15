@@ -17,6 +17,12 @@ class Graph(models.Model):
         return f'{self.dim}D - {self.geometry}'
 
 
+class ComputationalMethod(models.Model):
+    name = models.CharField (max_length=100, null=True, blank=True, verbose_name='method name') 
+    def __str__(self):
+        return f'{self.name}'
+
+
 class SearchFlag(models.Model):
     flag = models.CharField( max_length=100, null=True, blank=True, verbose_name='search flag' )
     def __str__(self):
