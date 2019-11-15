@@ -6,6 +6,7 @@ from . import views
 urlpatterns = [
     path('', views.HomeView.as_view(), name='home'),
     path('systems/<int:pk>/', views.SystemDetailView.as_view(), name='system-detail'),
+    path('system-search/', views.SystemSearchView.as_view(), name='system-search-results'),
 #
     #path('users/', views.ProfileListView.as_view(), name='users'),
     #path('users/<str:username>/', views.ProfileDetailView.as_view(), name='user-messages'),

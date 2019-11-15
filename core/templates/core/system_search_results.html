@@ -1,10 +1,6 @@
 {% extends "core/base.html" %}
 {% block content %}
-  {% if systems %}
   <h3>Systems</h3>
-  <form action="{% url 'system-search-results' %}" method="get">
-  	<input name="q" type="text" placeholder="Search...">
-  </form>
   <table class="table" style="width: 100%">
   <tr>
     <th style="width: 25%">Name</th>
@@ -12,7 +8,7 @@
     <th style="width: 15%; text-align:center">Graph</th>
     <th style="width: 30%; text-align:center">Description</th>
   </tr>
-  {% for system in systems %}
+  {% for system in object_list %}
     <tr>
       <td style="vertical-align:middle"><a href="{% url 'system-detail' system.pk %}">{{ system.name }}</a></td>
       <td style="vertical-align:top">\[{{ system.H }}\]</td>
@@ -21,28 +17,7 @@
     </tr>
   {% endfor %}
   </table>
-  {% else %}
-    <h3>No systems available</h3>
-  {% endif %}
-
-  {% if msgs %}
-  <h3>Updates</h3>
-    {% for m in msgs %}
-    <article class="media content-section">
-      <div class="media-body">
-        <div class="article-metadata">
-            <!-- { url 'profile' post.author.profile } -->
-          <a class="mr-2">{{ m.author.username }} on {{ m.date_mod|date:"D, d.m.Y"}} at {{ m.date_mod|date:"H:i"}}</a>
-        </div>
-        <h2><a class="article-title" href="#">{{ m.title }}</a></h2>
-        <p class="article-content">{{ m.content }}</p>
-      </div>
-    </article>
-    {% endfor %}
-  {% else %}
-    <h3>No updates available</h3>
-  {% endif %}
-
+  
   {% if is_paginated %}
 
     {% if page_obj.has_previous %}
@@ -65,4 +40,5 @@
 
   {% endif %}
 {% endblock content %}
+
 
