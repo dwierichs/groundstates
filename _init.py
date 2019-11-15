@@ -33,10 +33,17 @@ for name, pw in admins.items():
 graph = Graph(geometry='Hypercube', dim=1, pbc=1)
 graph.save()
 
+sf1 = SearchFlag(flag='tfi')
+sf1.save()
+sf2 = SearchFlag(flag='xxx')
+sf2.save()
+
 s1 = System(name='Transverse Field Ising Model', description='standard Ising model on a chain with PBC and transverse field h', H='J\sum^N_{i=1} Z_i Z_{i+1}+h\sum^N_{i=1} X_i', n_par=2, wikilink='en.wikipedia.org/wiki/Ising_model', contributors='system', graph=graph)
 s1.save()
+s1.search_flags.add(sf1)
 s2 = System(name='Isotropic Heisenberg model (XXX)', description='Heisenberg model with isotropic coupling (XXX model) on a chain, without transverse field.', H='J\sum^N_{i=1} X_i X_{i+1}+Y_i Y_{i+1}+Z_i Z_{i+1}', n_par=2, wikilink='en.wikipedia.org/wiki/classical_heisenberg_model', contributors='system', graph=graph)
 s2.save()
+s2.search_flags.add(sf2)
 
 e1_1 = Energy_TFI(value=0.07, system=s1, abs_error=0.01, h=1., J=0., references='www.github.com/dwierichs/groundstates/\nwww.google.com')
 e1_2 = Energy_TFI(value=0.14, system=s1, rel_error=0.02, h=0., J=1., codelink='www.github.com/dwierichs/groundstates/')
