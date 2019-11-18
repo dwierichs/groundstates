@@ -46,8 +46,9 @@
         <td>{{ attr|floatformat:dec_places }}</td>
       {%endfor %}
       <td>
-      {% for ref, refname in e.references %}
-        <button class="btn btn-outline-info"><a href="{{ ref }}">{{ refname }}</a></button>
+      {% for ref in e.references %}
+        <a href="#e_refs">[{{ ref }}]</a>
+        <!--button class="btn btn-outline-info"><a href="#e_refs">{ ref }}</a></button-->
       {% endfor %}
       </td>
       <td>
@@ -58,6 +59,12 @@
     </tr>
   {% endfor %}
   </table>
+  <h4><a class="anchor" id="e_refs">Literature for energies</h4>
+  <ul>
+  {% for ref, refname, ref_no in all_energy_refs %}
+  <li>[{{ ref_no }}] <a class="anchor" id="{{ ref_no }}" href="{{ ref }}">{{ refname }}</a></li>
+  {% endfor %}
+  </ul>
 
 
 </div>

@@ -72,6 +72,16 @@ class SystemDetailView(DetailView):
         context['theres_code'] = code_exists
         context['energies'] = energies
         context['params'] = params
+        # New policy: collect all references attached to an energy and reference them in the table but 
+        # actually put them below (or above) the table.
+        all_energy_refs = []
+        for e in energies:
+            for ref, refname in e.references:
+                if (ref, refname) not in all_energy_refs:
+                    all_energy_refs.append( (ref,refname,len(all_energy_refs)) )
+        for e in energies:
+            e.references = [ref[2] for ref in all_energy_refs if (ref[0],ref[1]) in e.references]
+        context['all_energy_refs'] = all_energy_refs
         return context
 
 
