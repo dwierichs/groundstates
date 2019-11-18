@@ -20,14 +20,14 @@
 
   {% if sys_refs %}
   <h4>Literature</h4>
-  {% for ref, refname in sys_refs %}
+  {% for ref, refname in system.references %}
     <button class="btn btn-outline-info"><a href="{{ ref }}">{{ refname }}</a></button>
   {% endfor %}
   {% endif %}
 
-  <!--{ if system.codelink %}
-    <button class="btn btn-outline-info"><a href="{ system.codelink }}">Code</a></button>
-  { endif %}-->
+  {% if system.codelink %}
+    <button class="btn btn-outline-info"><a href="{{ system.codelink }}">Code</a></button>
+  {% endif %}
 
   <h4>Ground State Energies</h4>
   <table class="table" style="width: 100%">
@@ -36,14 +36,22 @@
       <th>{{ par }}</th>
     {% endfor %}
     <th>References</th>
+    {% if theres_code %}
+      <th>Code</th>
+    {% endif %}
   </tr>
   {% for e in energies %}
     <tr>
-      {% for attr in e.pars %}
-        <td>{{ attr }}</td>
+      {% for attr, dec_places in e.pars %}
+        <td>{{ attr|floatformat:dec_places }}</td>
       {%endfor %}
       <td>
       {% for ref, refname in e.references %}
+        <button class="btn btn-outline-info"><a href="{{ ref }}">{{ refname }}</a></button>
+      {% endfor %}
+      </td>
+      <td>
+      {% for ref, refname in e.codelink %}
         <button class="btn btn-outline-info"><a href="{{ ref }}">{{ refname }}</a></button>
       {% endfor %}
       </td>

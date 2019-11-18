@@ -47,10 +47,12 @@ s2.search_flags.add(sf2)
 
 e1_1 = Energy_TFI(value=0.07, system=s1, abs_error=0.01, h=1., J=0., references='www.github.com/dwierichs/groundstates/\nwww.google.com')
 e1_2 = Energy_TFI(value=0.14, system=s1, rel_error=0.02, h=0., J=1., codelink='www.github.com/dwierichs/groundstates/')
-e2_1 = Energy_XXX(value=0.05, system=s2, abs_error=0.01, J=0.)
+e2_1 = Energy_XXX(value=0.05, system=s2, abs_error=0.01, J=0., references='www.github.com/dwierichs/groundstates/\nhttps://arxiv.org/pdf/1811.08017.pdf')
 e2_2 = Energy_XXX(value=0.10, system=s2, abs_error=0.02, J=1.)
 
 e1_1.save()
 e1_2.save()
 e2_1.save()
 e2_2.save()
+
+print(f'Initialization of new DB successful.')

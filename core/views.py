@@ -18,6 +18,7 @@ from users.models import (
 
 from .utils import (
     list_references,
+    link_to_name,
     )
 
 class HomeView(ListView):
@@ -59,11 +60,16 @@ class SystemDetailView(DetailView):
         energies = system.energy_set.order_by('value')
         params = [tup[0] for tup in energies[0].get_params()]
 
+        code_exists = False
         for e in energies:
             e.references = list_references(e.references)
-            e.pars = [tup[1] for tup in e.get_params()]
+            e.codelink = list_references(e.codelink)
+            if e.codelink != []:
+                code_exists = True
+            e.pars = [tup[1:] for tup in e.get_params()]
 
         context = super(DetailView, self).get_context_data(**kwargs)
+        context['theres_code'] = code_exists
         context['energies'] = energies
         context['params'] = params
         return context

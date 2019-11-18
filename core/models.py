@@ -60,8 +60,8 @@ class Energy(Poly):
 
     def get_params(self):
         return [
-            ('Energy', self.value,),
-            ('Abs. Error', self.abs_error,),
+            ('Energy', self.value, 4),
+            ('Abs. Error', self.abs_error, 4),
             ]
 
     def save(self, *args, **kwargs):
