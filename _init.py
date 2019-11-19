@@ -45,6 +45,11 @@ s2 = System(name='Isotropic Heisenberg model (XXX)', description='Heisenberg mod
 s2.save()
 s2.search_flags.add(sf2)
 
+l1 = Literature(title='Test titles are the first titles ever', authors='Wurst, Hans\nPiet', link='www.google.com')
+l1.save()
+l2 = Literature(title='There shall be a website with groundstates!', authors='Auch Immer, Wer\nWurst, Hans', link='www.arxiv.org/pdf/1405.05431.pdf')
+l2.save()
+
 e1_1 = Energy_TFI(value=0.07, system=s1, abs_error=0.01, h=1., J=0., references='www.github.com/dwierichs/groundstates/\nwww.google.com')
 e1_2 = Energy_TFI(value=0.14, system=s1, rel_error=0.02, h=0., J=1., codelink='www.github.com/dwierichs/groundstates/')
 e2_1 = Energy_XXX(value=0.05, system=s2, abs_error=0.01, J=0., references='www.github.com/dwierichs/groundstates/\nhttps://arxiv.org/pdf/1811.08017.pdf')
@@ -54,5 +59,7 @@ e1_1.save()
 e1_2.save()
 e2_1.save()
 e2_2.save()
+e2_1.references2.add(l1)
+e2_2.references2.add(l2)
 
 print(f'Initialization of new DB successful.')

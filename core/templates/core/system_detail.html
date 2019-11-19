@@ -62,7 +62,12 @@
   <h4><a class="anchor" id="e_refs">Literature for energies</h4>
   <ul>
   {% for ref, refname, ref_no in all_energy_refs %}
-  <li>[{{ ref_no }}] <a class="anchor" id="{{ ref_no }}" href="{{ ref }}">{{ refname }}</a></li>
+    <li>[{{ ref_no }}] <a class="anchor" id="{{ ref_no }}" href="{{ ref }}">{{ refname }}</a></li>
+  {% endfor %}
+  </ul>
+  <ul>
+  {% for ref in refs2 %}
+    <li>[{{ ref.pk }}] <a class="anchor" id="{{ ref.pk }}" href="{{ ref.link }}">{{ ref.authors }} - {{ ref.title }}</a></li>
   {% endfor %}
   </ul>
 

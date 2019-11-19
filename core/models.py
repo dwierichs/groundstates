@@ -50,6 +50,17 @@ class System(models.Model):
         super().save(*args, **kwargs)
 
 
+class Literature(models.Model):
+    title = models.CharField( max_length=250, verbose_name='title' )
+    authors = models.TextField( null=True, blank=True, verbose_name='authors' )
+    link = models.CharField( max_length=150, verbose_name='link' )
+
+    year = models.IntegerField( null=True, blank=True, verbose_name='year' )
+    journal = models.CharField( max_length=100, null=True, blank=True, verbose_name='journal' )
+    comment = models.TextField( null=True, blank=True, verbose_name='comment' )
+    bibtex = models.TextField( null=True, blank=True, verbose_name='BibTex entry' )
+
+
 class Energy(Poly):
     value = models.DecimalField( max_digits=14, decimal_places=10, verbose_name='energy' )
     system = models.ForeignKey( System, on_delete=models.CASCADE, verbose_name='system' )
@@ -57,6 +68,7 @@ class Energy(Poly):
     rel_error = models.DecimalField( max_digits=10, decimal_places=7, null=True, blank=True, verbose_name='relative error' )
     codelink = models.CharField( max_length=140, null=True, blank=True, verbose_name='code repository' )
     references = models.TextField( null=True, blank=True, verbose_name='references' )
+    references2 = models.ManyToManyField( Literature, verbose_name='references' )
 
     def get_params(self):
         return [
@@ -73,3 +85,4 @@ class Energy(Poly):
         if self.references:
             self.references = '\n'.join([external_link(reflink) for reflink in self.references.split('\n')])
         super().save(*args, **kwargs)
+

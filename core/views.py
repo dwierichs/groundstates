@@ -4,6 +4,7 @@ from django.views.generic import (
     ListView,
     DetailView,
     )
+from django.db.models import Q
 
 from .models import (
     Graph,
@@ -74,6 +75,7 @@ class SystemDetailView(DetailView):
         context['params'] = params
         # New policy: collect all references attached to an energy and reference them in the table but 
         # actually put them below (or above) the table.
+        # !--
         all_energy_refs = []
         for e in energies:
             for ref, refname in e.references:
@@ -82,6 +84,12 @@ class SystemDetailView(DetailView):
         for e in energies:
             e.references = [ref[2] for ref in all_energy_refs if (ref[0],ref[1]) in e.references]
         context['all_energy_refs'] = all_energy_refs
+        # --!
+        refs2 = energies[0].references2.all()
+        for e in energies[1:]:
+            refs2 = refs2.union(e.references2.all())
+        context['refs2'] = refs2
+
         return context
 
 
