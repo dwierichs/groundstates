@@ -56,41 +56,29 @@ class SystemDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         system = self.get_object()
-        system.references = list_references(system.references)
 
         energies = system.energy_set.order_by('value')
-        params = [tup[0] for tup in energies[0].get_params()]
 
         code_exists = False
         for e in energies:
-            e.references = list_references(e.references)
-            e.codelink = list_references(e.codelink)
-            if e.codelink != []:
+            if e.codelink:
+                e.codelink = list_references(e.codelink)
                 code_exists = True
             e.pars = [tup[1:] for tup in e.get_params()]
+            e.references = list_references(e.references)
+
+        params = [tup[0] for tup in energies.first().get_params()]
+
+        energy_refs = energies.first().references2.all()
+        for e in energies[1:]:
+            energy_refs = energy_refs.union(e.references2.all())
 
         context = super(DetailView, self).get_context_data(**kwargs)
         context['theres_code'] = code_exists
         context['energies'] = energies
         context['params'] = params
-        # New policy: collect all references attached to an energy and reference them in the table but 
-        # actually put them below (or above) the table.
-        # !--
-        all_energy_refs = []
-        for e in energies:
-            for ref, refname in e.references:
-                if (ref, refname) not in all_energy_refs:
-                    all_energy_refs.append( (ref,refname,len(all_energy_refs)) )
-        for e in energies:
-            e.references = [ref[2] for ref in all_energy_refs if (ref[0],ref[1]) in e.references]
-        context['all_energy_refs'] = all_energy_refs
-        # --!
-        refs2 = energies[0].references2.all()
-        for e in energies[1:]:
-            refs2 = refs2.union(e.references2.all())
-        context['refs2'] = refs2
+        context['energy_refs'] = energy_refs
+        context['sys_refs'] = list_references(system.references)
 
         return context
-
-
 

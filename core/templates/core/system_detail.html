@@ -20,7 +20,7 @@
 
   {% if sys_refs %}
   <h4>Literature</h4>
-  {% for ref, refname in system.references %}
+  {% for ref, refname in sys_refs %}
     <button class="btn btn-outline-info"><a href="{{ ref }}">{{ refname }}</a></button>
   {% endfor %}
   {% endif %}
@@ -46,9 +46,8 @@
         <td>{{ attr|floatformat:dec_places }}</td>
       {%endfor %}
       <td>
-      {% for ref in e.references %}
-        <a href="#e_refs">[{{ ref }}]</a>
-        <!--button class="btn btn-outline-info"><a href="#e_refs">{ ref }}</a></button-->
+      {% for ref in e.references2.all %}
+        <a href="#e_refs">[{{ ref.pk }}]</a> <!-- one can exchange #e_refs by #{ ref.pk }-->
       {% endfor %}
       </td>
       <td>
@@ -61,13 +60,8 @@
   </table>
   <h4><a class="anchor" id="e_refs">Literature for energies</h4>
   <ul>
-  {% for ref, refname, ref_no in all_energy_refs %}
-    <li>[{{ ref_no }}] <a class="anchor" id="{{ ref_no }}" href="{{ ref }}">{{ refname }}</a></li>
-  {% endfor %}
-  </ul>
-  <ul>
-  {% for ref in refs2 %}
-    <li>[{{ ref.pk }}] <a class="anchor" id="{{ ref.pk }}" href="{{ ref.link }}">{{ ref.authors }} - {{ ref.title }}</a></li>
+  {% for ref in energy_refs %}
+    <li>[{{ ref.pk }}] <a id="{{ ref.pk }}" href="{{ ref.link }}">{{ ref.authors }} - {{ ref.title }}</a></li>
   {% endfor %}
   </ul>
 
