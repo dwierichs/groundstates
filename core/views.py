@@ -4,7 +4,6 @@ from django.views.generic import (
     ListView,
     DetailView,
     )
-from django.db.models import Q
 
 from .models import (
     Graph,
@@ -57,28 +56,34 @@ class SystemDetailView(DetailView):
     def get_context_data(self, **kwargs):
         system = self.get_object()
 
+        # Query all energy entries of the system
         energies = system.energy_set.order_by('value')
 
+        # Ab initio there is no code for any energy entry
         code_exists = False
         for e in energies:
+            # Reformat codelink from text to list and remember there was code
             if e.codelink:
                 e.codelink = list_references(e.codelink)
                 code_exists = True
+            # set each energy's par to (value, decimal_places)
             e.pars = [tup[1:] for tup in e.get_params()]
-            e.references = list_references(e.references)
 
+        # Get the parameter names for the table headers (on-site)
         params = [tup[0] for tup in energies.first().get_params()]
 
-        energy_refs = energies.first().references2.all()
+        # Collect the references of all energy entries
+        energy_refs = energies.first().references.all()
         for e in energies[1:]:
-            energy_refs = energy_refs.union(e.references2.all())
+            energy_refs = energy_refs.union(e.references.all())
 
+        # Set up context
         context = super(DetailView, self).get_context_data(**kwargs)
-        context['theres_code'] = code_exists
+        context['theres_code'] = code_exists # code_exists is not a good name within a template, so it is renamed in the context dict
         context['energies'] = energies
         context['params'] = params
         context['energy_refs'] = energy_refs
-        context['sys_refs'] = list_references(system.references)
+        #context['sys_refs'] = list_references(system.references)
 
         return context
 

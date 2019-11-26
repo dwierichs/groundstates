@@ -15,18 +15,18 @@
   <h4>{{ system.description }}</h4>
 
   {% if system.wikilink %}
-    <button class="btn btn-outline-info"><a href={{ system.wikilink }}>Wiki</a></button>
+    <button class="btn btn-outline-info"><a href={{ system.wikilink }} target="_blank">Wiki</a></button>
   {% endif %}
 
-  {% if sys_refs %}
+  {% if system.references %}
   <h4>Literature</h4>
-  {% for ref, refname in sys_refs %}
-    <button class="btn btn-outline-info"><a href="{{ ref }}">{{ refname }}</a></button>
+  {% for ref in system.references.all %}
+    <button class="btn btn-outline-info"><a href={{ ref.link }} target="_blank">{{ ref.disp_name }}</a></button>
   {% endfor %}
   {% endif %}
 
   {% if system.codelink %}
-    <button class="btn btn-outline-info"><a href="{{ system.codelink }}">Code</a></button>
+    <button class="btn btn-outline-info"><a href={{ system.codelink }} target="_blank">Code</a></button>
   {% endif %}
 
   <h4>Ground State Energies</h4>
@@ -46,13 +46,13 @@
         <td>{{ attr|floatformat:dec_places }}</td>
       {%endfor %}
       <td>
-      {% for ref in e.references2.all %}
+      {% for ref in e.references.all %}
         <a href="#e_refs">[{{ ref.pk }}]</a> <!-- one can exchange #e_refs by #{ ref.pk }-->
       {% endfor %}
       </td>
       <td>
       {% for ref, refname in e.codelink %}
-        <button class="btn btn-outline-info"><a href="{{ ref }}">{{ refname }}</a></button>
+        <button class="btn btn-outline-info"><a href={{ ref }} target="_blank">{{ refname }}</a></button>
       {% endfor %}
       </td>
     </tr>
@@ -61,7 +61,12 @@
   <h4><a class="anchor" id="e_refs">Literature for energies</h4>
   <ul>
   {% for ref in energy_refs %}
-    <li>[{{ ref.pk }}] <a id="{{ ref.pk }}" href="{{ ref.link }}">{{ ref.authors }} - {{ ref.title }}</a></li>
+    <li>
+      [{{ ref.pk }}] <a id="{{ ref.pk }}" href={{ ref.link }} target="_blank">{{ ref.authors }} - {{ ref.title }} </a>
+      {% if ref.bibtex %}
+      <button class="clipbtn" data-clipboard-text="{{ ref.bibtex }}"><img width="16" src="/media/32px-Clipboard_Pictogram.svg.png"><img width="40" src="/media/2880px-BibTeX_logo.svg.png"></button>
+      {% endif %}
+    </li>
   {% endfor %}
   </ul>
 
