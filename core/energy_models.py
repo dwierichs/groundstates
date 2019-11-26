@@ -10,8 +10,8 @@ class Energy_TFI(Energy):
 
     def get_params(self):
         return super().get_params() + [
-                                    ('h', self.h,),
-                                    ('J', self.J,),
+                                    ('h', self.h,1),
+                                    ('J', self.J,1),
                                     ]
 
 class Energy_XXX(Energy):
@@ -20,7 +20,7 @@ class Energy_XXX(Energy):
 
     def get_params(self):
         return super().get_params() + [
-                                    ('J', self.J,),
+                                    ('J', self.J,1),
                                     ]
 
 
