@@ -1,33 +1,9 @@
-import re
 import urllib.request as req
+from pprint import pprint
 from bs4 import BeautifulSoup
+import re
 import requests
 
-def link_to_name(reflink):
-    # arxiv: strip number
-    if 'arxiv' in reflink:
-        name = re.search(r'(?<=arxiv.org/[abspdf]{3}/)\d+\.*\d+', reflink).group(0)
-    elif 'github.com' in reflink:
-        name = 'GitHub/'+re.search(r'(?<=github.com/)\w+', reflink).group(0)
-    else:
-        name = reflink
-
-    return name
-    
-def list_references(refs):
-    if refs is None:
-        return []
-    else:
-        return [(ref, link_to_name(ref),) for ref in refs.split('\n')]
-
-def external_link(link):
-    if link[:7]=='http://':
-        return link
-    elif link[:8]=='https://':
-        return link
-    else:
-        return 'http://' + link
-    
 def arxiv_to_bibtex(string):
     '''
     Takes either a full link or the id alone
@@ -48,14 +24,16 @@ def arxiv_to_bibtex(string):
         headers = {
             'Accept': 'text/bibliography; style=bibtex',
         }
-        bibtex = requests.get(f'http://dx.doi.org/{soup.doi.string}', headers=headers).content.lstrip()
+        bibtex = requests.get(f'http://dx.doi.org/{soup.doi.string}', headers=headers)
+        print(bibtex.content.lstrip())
+        #bibtex = soup.journal_ref.string
     else:
         authors = [auth.string for auth in soup.find_all('name') if auth.parent.name=='author']
         title = [title.string for title in soup.find_all('title') if title.parent.name=='entry'][0]
         year = ('20' if int(arx_id[:2])<25 else '19')+arx_id[:2]
         month = arx_id[2:4]
         cl = soup.primary_category['term']
-        bibtex = f'''@article{{{"_".join(authors[:2])}_{year},
+        bibtex = f'''@article{{{authors[0]}_{authors[1]}_{year},
     author = {{{authors}}},
     title = {{{title}}},
     year = {{{year}}},
@@ -65,4 +43,12 @@ def arxiv_to_bibtex(string):
     class = {{{cl}}}
 }}'''
     return bibtex
+
+
+for arx_id in ['1706.02998', '1911.11140']:
+    #print(soup.prettify)
+    #print(soup.journal_ref)
+    print(arxiv_to_bibtex(arx_id))
+
+
 

@@ -7,7 +7,13 @@ from groundstates.settings import (
     _graph_dim_MAX,
     )
 
-from .utils import list_references, external_link, link_to_name
+from .utils import (
+    list_references, 
+    external_link, 
+    link_to_name,
+    arxiv_to_bibtex,
+    )
+
 
 class Graph(models.Model):
     geometry = models.CharField( max_length=40, verbose_name='type', choices=_graph_geometry_CHOICES )
@@ -37,6 +43,8 @@ class Literature(models.Model):
     def save(self, *args, **kwargs):
         self.link = external_link(self.link)
         self.disp_name = link_to_name(self.link)
+        if not self.bibtex and 'arxiv.org' in self.link:
+            self.bibtex = arxiv_to_bibtex(self.link)
         super().save(*args, **kwargs)
 
 

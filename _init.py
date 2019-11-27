@@ -46,7 +46,23 @@ s2 = System(name='Isotropic Heisenberg model (XXX)', description='Heisenberg mod
 s2.save()
 s2.search_flags.add(sf2)
 
-l4_bibtex='@ARTICLE{2019PhRvL.123g0503C,\nauthor = {{Campbell}, Earl},\ntitle = "{Random Compiler for Fast Hamiltonian Simulation}",\nurnal = {\prl},\nwords = {Quantum Physics},\n year = "2019",\nmonth = "Aug",\nolume = {123},\number = {7},\n  eid = {070503},\npages = {070503},\n  doi = {10.1103/PhysRevLett.123.070503},\nrefix = {arXiv},\nprint = {1811.08017},\nClass = {quant-ph},\ndsurl = {https://ui.adsabs.harvard.edu/abs/2019PhRvL.123g0503C},\nsnote = {Provided by the SAO/NASA Astrophysics Data System}}'
+l4_bibtex='''
+@ARTICLE{2019PhRvL.123g0503C,
+    author = {{Campbell}, Earl},
+    title = "{Random Compiler for Fast Hamiltonian Simulation}",
+    journal = {\prl},
+    words = {Quantum Physics},
+    year = "2019",
+    month = "Aug",
+    volume = {123},
+    number = {7},
+    eid = {070503},
+    pages = {070503},
+    doi = {10.1103/PhysRevLett.123.070503},
+    prefix = {arXiv},
+    preprint = {1811.08017},
+    Class = {quant-ph},
+}'''
 
 l1 = Literature(title='Test titles are the first titles ever', authors='Wurst, Hans\nPiet', link='www.google.com')
 l1.save()
