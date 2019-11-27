@@ -30,9 +30,9 @@ class SearchFlag(models.Model):
 
 
 class Literature(models.Model):
-    title = models.CharField( max_length=250, verbose_name='title' )
-    authors = models.TextField( null=True, blank=True, verbose_name='authors' )
     link = models.CharField( max_length=150, verbose_name='link' )
+    title = models.CharField( max_length=250, null=True, blank=True, verbose_name='title' )
+    authors = models.TextField( null=True, blank=True, verbose_name='authors' )
 
     year = models.IntegerField( null=True, blank=True, verbose_name='year' )
     journal = models.CharField( max_length=100, null=True, blank=True, verbose_name='journal' )
@@ -41,10 +41,20 @@ class Literature(models.Model):
     disp_name = models.CharField( max_length=150, null=True, blank=True, verbose_name='displayed name' )
 
     def save(self, *args, **kwargs):
+        if 'arxiv.org' in self.link:
+            bibtex_scr, title_scr, authors_scr = arxiv_to_bibtex(self.link)
+            if not self.title:
+                self.title = title_scr
+            if not self.authors:
+                self.authors = authors_scr.replace(' and ', '; ').replace('{', '').replace('}', '')
+            if not self.bibtex:
+                self.bibtex = bibtex_scr
+        else:
+            assert self.title is not None, f'Title is required if the link does not point to arxiv.\nProvided link: {self.link}'
+
         self.link = external_link(self.link)
-        self.disp_name = link_to_name(self.link)
-        if not self.bibtex and 'arxiv.org' in self.link:
-            self.bibtex = arxiv_to_bibtex(self.link)
+        if not self.disp_name:
+            self.disp_name = link_to_name(self.link)
         super().save(*args, **kwargs)
 
 

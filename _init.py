@@ -53,7 +53,7 @@ l4_bibtex='''
     journal = {\prl},
     words = {Quantum Physics},
     year = "2019",
-    month = "Aug",
+    month = "TEST",
     volume = {123},
     number = {7},
     eid = {070503},
@@ -66,15 +66,15 @@ l4_bibtex='''
 
 l1 = Literature(title='Test titles are the first titles ever', authors='Wurst, Hans\nPiet', link='www.google.com')
 l1.save()
-l2 = Literature(title='There shall be a website with groundstates!', authors='Auch Immer, Wer\nWurst, Hans', link='www.arxiv.org/pdf/1405.05431.pdf')
+l2 = Literature(link='www.arxiv.org/pdf/1405.05431.pdf')
 l2.save()
-l3 = Literature(title='Code should not be a reference but a codelink', authors='David', link='www.github.com/dwierichs/groundstates/\nwww.google.com')
+l3 = Literature(title='Code should not be a reference but a codelink', link='www.github.com/dwierichs/arxivity/')
 l3.save()
 l4 = Literature(title=link_to_name('https://arxiv.org/pdf/1811.08017.pdf'), authors='Someone', link='https://arxiv.org/pdf/1811.08017.pdf', bibtex=l4_bibtex)
 l4.save()
 l5 = Literature(title='Some stuff', authors='A person', link='https://arxiv.org/abs/1706.02998')
 l5.save()
-l6 = Literature(title='Decomposition of Pauli groups', authors='Two dudes', link='https://arxiv.org/pdf/1911.10158.pdf')
+l6 = Literature(link='https://arxiv.org/pdf/1911.10158.pdf')
 l6.save()
 
 e1_1 = Energy_TFI(value=0.07, system=s1, abs_error=0.01, h=1., J=0.)

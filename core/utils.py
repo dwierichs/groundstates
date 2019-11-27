@@ -5,7 +5,7 @@ import requests
 
 def link_to_name(reflink):
     # arxiv: strip number
-    if 'arxiv' in reflink:
+    if 'arxiv.org' in reflink:
         name = re.search(r'(?<=arxiv.org/[abspdf]{3}/)\d+\.*\d+', reflink).group(0)
     elif 'github.com' in reflink:
         name = 'GitHub/'+re.search(r'(?<=github.com/)\w+', reflink).group(0)
@@ -47,21 +47,21 @@ def arxiv_to_bibtex(string):
     url = f'http://export.arxiv.org/api/query?id_list={arx_id}'
     data = req.urlopen(url).read()
     soup = BeautifulSoup(data, 'lxml-xml')
+    title = [title.string for title in soup.find_all('title') if title.parent.name=='entry'][0]
+    authors = [auth.string for auth in soup.find_all('name') if auth.parent.name=='author']
+    author_str = ' and '.join([f'{{{auth.split(" ")[-1]}}}'+', '+' '.join(auth.split(' ')[:-1]) for auth in authors])
     if soup.journal_ref:
         headers = {
             'Accept': 'text/bibliography; style=bibtex',
         }
         bibtex = requests.get(f'http://dx.doi.org/{soup.doi.string}', headers=headers).content.lstrip()
     else:
-        authors = [auth.string for auth in soup.find_all('name') if auth.parent.name=='author']
-        title = [title.string for title in soup.find_all('title') if title.parent.name=='entry'][0]
         year = ('20' if int(arx_id[:2])<25 else '19')+arx_id[:2]
         month = arx_id[2:4]
         cl = soup.primary_category['term']
-        author = ' and '.join([f'{{{auth.split(" ")[-1]}}}'+', '+' '.join(auth.split(' ')[:-1]) for auth in authors])
         flag = '_'.join([auth.split(' ')[-1] for auth in authors[:2]]+[year])
         bibtex = f'''@article{{{flag},
-    author = {{{author}}},
+    author = {{{author_str}}},
     title = {{{title}}},
     year = {{{year}}},
     month = {{{month}}},
@@ -69,7 +69,7 @@ def arxiv_to_bibtex(string):
     preprint = {{{arx_id}}},
     class = {{{cl}}}
 }}'''
-    return bibtex
+    return bibtex, title, author_str
 
 
 
