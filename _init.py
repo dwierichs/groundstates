@@ -66,7 +66,7 @@ l4_bibtex='''
 
 l1 = Literature(title='Test titles are the first titles ever', authors='Wurst, Hans\nPiet', link='www.google.com')
 l1.save()
-l2 = Literature(link='www.arxiv.org/pdf/1405.05431.pdf')
+l2 = Literature(link='1405.05431')
 l2.save()
 l3 = Literature(title='Code should not be a reference but a codelink', link='www.github.com/dwierichs/arxivity/')
 l3.save()

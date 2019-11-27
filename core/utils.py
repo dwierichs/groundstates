@@ -27,6 +27,8 @@ def external_link(link):
         return link
     elif link[:8]=='https://':
         return link
+    elif re.search(r'^\d+\.*\d+$', link):
+        return 'https://www.arxiv.org/abs/'+link
     else:
         return 'http://' + link
 

@@ -41,8 +41,14 @@ class Literature(models.Model):
     disp_name = models.CharField( max_length=150, null=True, blank=True, verbose_name='displayed name' )
 
     def save(self, *args, **kwargs):
-        if 'arxiv.org' in self.link:
-            bibtex_scr, title_scr, authors_scr = arxiv_to_bibtex(self.link)
+
+        # Cover the case of only id being provided in link
+        arx_id = re.search(r'^\d+\.*\d+$', self.link)
+        if 'arxiv.org' in self.link or arx_id:
+            if arx_id: # There is only an id given
+                bibtex_scr, title_scr, authors_scr = arxiv_to_bibtex(arx_id.group(0))
+            else: # There is an arxiv.org link given
+                bibtex_scr, title_scr, authors_scr = arxiv_to_bibtex(self.link)
             if not self.title:
                 self.title = title_scr
             if not self.authors:
