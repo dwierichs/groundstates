@@ -74,6 +74,8 @@ l4 = Literature(title=link_to_name('https://arxiv.org/pdf/1811.08017.pdf'), auth
 l4.save()
 l5 = Literature(title='Some stuff', authors='A person', link='https://arxiv.org/abs/1706.02998')
 l5.save()
+l6 = Literature(title='Decomposition of Pauli groups', authors='Two dudes', link='https://arxiv.org/pdf/1911.10158.pdf')
+l6.save()
 
 e1_1 = Energy_TFI(value=0.07, system=s1, abs_error=0.01, h=1., J=0.)
 e1_2 = Energy_TFI(value=0.14, system=s1, rel_error=0.02, h=0., J=1., codelink='www.github.com/dwierichs/groundstates/')
@@ -88,7 +90,7 @@ e2_2.save()
 e1_1.references.add(l1)
 e1_2.references.add(l1,l2,l4)
 e2_1.references.add(l1,l4)
-e2_2.references.add(l2,l3)
-s1.references.add(l5)
+e2_2.references.add(l2,l3,l6)
+s1.references.add(l5,l6)
 
 print(f'Initialization of new DB successful.')

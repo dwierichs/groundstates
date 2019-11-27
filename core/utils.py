@@ -14,11 +14,13 @@ def link_to_name(reflink):
 
     return name
     
+
 def list_references(refs):
     if refs is None:
         return []
     else:
         return [(ref, link_to_name(ref),) for ref in refs.split('\n')]
+
 
 def external_link(link):
     if link[:7]=='http://':
@@ -27,6 +29,7 @@ def external_link(link):
         return link
     else:
         return 'http://' + link
+
     
 def arxiv_to_bibtex(string):
     '''
@@ -55,8 +58,10 @@ def arxiv_to_bibtex(string):
         year = ('20' if int(arx_id[:2])<25 else '19')+arx_id[:2]
         month = arx_id[2:4]
         cl = soup.primary_category['term']
-        bibtex = f'''@article{{{"_".join(authors[:2])}_{year},
-    author = {{{authors}}},
+        author = ' and '.join([f'{{{auth.split(" ")[-1]}}}'+', '+' '.join(auth.split(' ')[:-1]) for auth in authors])
+        flag = '_'.join([auth.split(' ')[-1] for auth in authors[:2]]+[year])
+        bibtex = f'''@article{{{flag},
+    author = {{{author}}},
     title = {{{title}}},
     year = {{{year}}},
     month = {{{month}}},
@@ -65,4 +70,6 @@ def arxiv_to_bibtex(string):
     class = {{{cl}}}
 }}'''
     return bibtex
+
+
 
