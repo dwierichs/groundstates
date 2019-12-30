@@ -137,4 +137,9 @@ _graph_geometry_CHOICES = [
 
 _graph_dim_MAX = 3
 
+_not_a_flag = {
+        'model',
+        }
+for flag in _not_a_flag:
+    _not_a_flag = _not_a_flag.union({flag.capitalize()})
 

@@ -2,6 +2,7 @@ import re
 import urllib.request as req
 from bs4 import BeautifulSoup
 import requests
+from groundstates.settings import _not_a_flag
 
 def link_to_name(reflink):
     # arxiv: strip number
@@ -72,6 +73,20 @@ def arxiv_to_bibtex(string):
     class = {{{cl}}}
 }}'''
     return bibtex, title, author_str
+
+
+def automatic_search_flags(system):
+    flags_from_name = {flag[1:-1] if (flag[0] in ['(','[','{'] and flag[-1] in [')',']','}']) else flag for flag in system.name.split(' ')}
+    # Clean up set of search flags: Lowercase and remove hardcoded unwanted 
+    flags_from_else = set() # This is just for future extensions
+    flags = flags_from_name.union(flags_from_else)
+    print(flags, _not_a_flag)
+    flags = flags - _not_a_flag
+    print(flags)
+
+    return flags
+
+
 
 
 

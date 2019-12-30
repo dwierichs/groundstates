@@ -12,6 +12,7 @@ from .utils import (
     external_link, 
     link_to_name,
     arxiv_to_bibtex,
+    automatic_search_flags,
     )
 
 
@@ -24,9 +25,14 @@ class Graph(models.Model):
 
 
 class SearchFlag(models.Model):
-    flag = models.CharField( max_length=100, null=True, blank=True, verbose_name='search flag' )
+    flag = models.CharField( max_length=100, verbose_name='search flag' )
+
     def __str__(self):
         return f'{self.flag}'
+
+    def save(self, *args, **kwargs):
+        self.flag = self.flag.lower()
+        super().save(*args, **kwargs)
 
 
 class Literature(models.Model):
@@ -90,6 +96,10 @@ class System(models.Model):
         if self.wikilink:
             self.wikilink = external_link(self.wikilink)
         super().save(*args, **kwargs)
+        for flag in automatic_search_flags(self):
+            SF = SearchFlag(flag=flag)
+            SF.save()
+            self.search_flags.add(SF)
 
 
 class Energy(Poly):

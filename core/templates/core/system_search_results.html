@@ -1,6 +1,9 @@
 {% extends "core/base.html" %}
 {% block content %}
-<h3>Found systems for "{{ query }}"</h3>
+  <h3>
+    <a href="{% url 'home' %}"><button class="clipbtn"><img width="16" src="/media/arrow-back.png"></button></a>
+    Found systems for "{{ query }}"
+  </h3>
 	{% if system_search_results %}  
   	<table class="table" style="width: 100%">
   	<tr>

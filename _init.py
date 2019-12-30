@@ -42,7 +42,7 @@ sf2.save()
 s1 = System(name='Transverse Field Ising Model', description='standard Ising model on a chain with PBC and transverse field h', H='J\sum^N_{i=1} Z_i Z_{i+1}+h\sum^N_{i=1} X_i', n_par=2, wikilink='en.wikipedia.org/wiki/Ising_model', contributors='system', graph=graph)
 s1.save()
 s1.search_flags.add(sf1)
-s2 = System(name='Isotropic Heisenberg model (XXX)', description='Heisenberg model with isotropic coupling (XXX model) on a chain, without transverse field.', H='J\sum^N_{i=1} X_i X_{i+1}+Y_i Y_{i+1}+Z_i Z_{i+1}', n_par=2, wikilink='en.wikipedia.org/wiki/classical_heisenberg_model', contributors='system', graph=graph)
+s2 = System(name='Isotropic Heisenberg Model (XXX)', description='Heisenberg model with isotropic coupling (XXX model) on a chain, without transverse field.', H='J\sum^N_{i=1} X_i X_{i+1}+Y_i Y_{i+1}+Z_i Z_{i+1}', n_par=2, wikilink='en.wikipedia.org/wiki/classical_heisenberg_model', contributors='system', graph=graph)
 s2.save()
 s2.search_flags.add(sf2)
 
