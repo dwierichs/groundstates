@@ -64,7 +64,7 @@
     <li>
       [{{ ref.pk }}] <a id="{{ ref.pk }}" href={{ ref.link }} target="_blank">{{ ref.authors }} - {{ ref.title }} </a>
       {% if ref.bibtex %}
-      <button class="clipbtn" data-clipboard-text="{{ ref.bibtex }}"><img width="16" src="/media/32px-Clipboard_Pictogram.svg.png"><img width="40" src="/media/2880px-BibTeX_logo.svg.png"></button>
+      <button class="clipbtn" data-clipboard-text="{{ ref.bibtex }}"><img width="16" src="/media/clipboard.png"><img width="40" src="/media/bibtex-logo.png"></button>
       {% endif %}
     </li>
   {% endfor %}
